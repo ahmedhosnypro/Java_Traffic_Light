@@ -1,33 +1,49 @@
 package traffic;
 
+import java.util.Arrays;
+
 public enum Command {
-    ADD("Add", 1),
-    DELETE("Delete", 2),
-    SYSTEM("System", 3),
-    QUIT("Quit", 0),
+    ADD_ROAD("Add road", "1", "Road added"),
+    DELETE_ROAD("Delete road", "2", "Road deleted"),
+    OPEN_SYSTEM("Open system", "3", "System opened"),
+    QUIT("Quit", "0", "Bye!"),
     ;
 
     private final String name;
-    private final int argValue;
+    private final String commandInput;
+    private final String response;
 
-    Command(String name, int argValue) {
+    Command(String name, String commandInput, String response) {
         this.name = name;
-        this.argValue = argValue;
+        this.commandInput = commandInput;
+        this.response = response;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getArgValue() {
-        return argValue;
+    public String getCommandInput() {
+        return commandInput;
     }
 
-    public static String getOrderedMenu() {
+    public String getResponse() {
+        return response;
+    }
+
+    public static String getMenu() {
         StringBuilder sb = new StringBuilder();
+        sb.append("Menu:").append("\n");
         for (Command command : Command.values()) {
-            sb.append(command.getArgValue()).append(". ").append(command.getName()).append("\n");
+            sb.append(command.getCommandInput()).append(". ").append(command.getName()).append("\n");
         }
         return sb.toString().trim();
+    }
+
+    public static Command getCommand(String commandInput) {
+        return Arrays.stream(Command.values())
+                .filter(command -> command.getCommandInput().equals(commandInput))
+                .findFirst()
+                .orElse(Command.QUIT);
     }
 }
