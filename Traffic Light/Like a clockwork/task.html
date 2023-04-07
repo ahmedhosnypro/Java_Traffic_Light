@@ -1,0 +1,37 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>Creating a whole system at once is challenging, so we will start with a simple stopwatch in the new thread.</p>
+<p>Let's assume that our program has three possible states:</p>
+<ul>
+<li><strong>Not Started </strong>— the state until the initial settings have been provided;</li>
+<li><strong>Menu</strong> — the state we worked with earlier. It shows possible options and processes the user's input;</li>
+<li><strong>System </strong>— the state that shows the user information about our traffic light, such as time from startup and initial settings for now.</li>
+</ul>
+<p>When the user provided input for initial settings (both the number of roads and the interval), create a new thread to implement the <strong>System </strong>state. Name it as <code class="java">QueueThread</code> by calling its <code class="java">setName()</code> method with the corresponding string argument. The actions this newly-created thread should perform for now each second are:</p>
+<ul>
+<li>Increasing the variable that corresponds to the amount of time since the "system startup" each second (1000 milliseconds);</li>
+<li>(if in System state)<strong> </strong>Printing the system information.</li>
+</ul>
+<p>Let's add new functionality to the <code class="java">Open system</code> menu option. By choosing <code class="java">3</code> option in Menu,<strong> </strong>the program switches to the System state, and the main thread waits for input from the user. To return to the Menu state, the user should press Enter, in other words, an empty string should be provided as input.</p>
+<p>Example of system information output:</p>
+<pre><code class="language-no-highlight">! 3s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !</code></pre>
+<p></p><div class="alert alert-primary">From this stage and beyond, the testing process can take some time.</div>
+<h5 id="objectives">Objectives</h5>
+<p>Implement the System state as described above and set its thread name as <code class="java">QueueThread</code>. While your program is in the System state, the output should contain the following information, updated (printing out) each second:</p>
+<ol>
+<li>The line that shows the time since the program's start (contains only one digital subsequence — the number of seconds);</li>
+<li>The line that indicates the number of roads provided by the user (includes the <code class="java"><span style="color: #000000;">number</span></code> substring and only one digital subsequence — the same value that was provided in the settings);</li>
+<li>The line that shows the interval provided by the user (contains the <code class="java"><span style="color: #000000;">interval</span></code> substring and only one digital subsequence — the same value that was provided in the settings);</li>
+<li>The line that asks the user to press Enter to open the menu (should contain the <code class="java"><span style="color: #000000;">Enter</span></code> substring)</li>
+</ol>
+<p>When the user provided an empty input, the program should switch back to the Menu state and show the previously implemented menu.</p>
+<p></p><div class="alert alert-warning">The created <code class="java">QueueThread</code> thread should be terminated when the program is finished.</div>
+<h5 id="examples">Examples</h5>
+<p><strong>Example 1: </strong><em>without clearing the output</em></p>
+<p><img alt="" height="1080" name="Without.gif" src="https://ucarecdn.com/b3c98704-4f92-4fbb-81d1-f4555f80ea75/" width="1920"/></p>
+<p><strong>Example 2: </strong><em>clearing the output</em></p>
+<p><img alt="" height="1080" name="With.gif" src="https://ucarecdn.com/1c495c8f-3f62-4620-8098-903c7a9ce257/" width="1920"/></p>
+</div>

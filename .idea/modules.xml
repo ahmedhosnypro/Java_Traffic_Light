@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Traffic_Light.iml" filepath="$PROJECT_DIR$/.idea/modules/Traffic_Light.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Traffic Light/task/Traffic_Light.Traffic_Light-task.iml" filepath="$PROJECT_DIR$/.idea/modules/Traffic Light/task/Traffic_Light.Traffic_Light-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Traffic Light/task/out/Traffic_Light.Traffic_Light-task-out.iml" filepath="$PROJECT_DIR$/.idea/modules/Traffic Light/task/out/Traffic_Light.Traffic_Light-task-out.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Traffic Light/task/out/Traffic_Light.Traffic_Light-task-out.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Traffic Light/task/out/Traffic_Light.Traffic_Light-task-out.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Traffic Light/task/out/Traffic_Light.Traffic_Light-task-out.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Traffic Light/task/out/Traffic_Light.Traffic_Light-task-out.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Traffic Light/task/Traffic_Light.Traffic_Light-task.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Traffic Light/task/Traffic_Light.Traffic_Light-task.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Traffic Light/task/Traffic_Light.Traffic_Light-task.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Traffic Light/task/Traffic_Light.Traffic_Light-task.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/Traffic_Light.util.iml" filepath="$PROJECT_DIR$/.idea/modules/util/Traffic_Light.util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/Traffic_Light.util.main.iml" filepath="$PROJECT_DIR$/.idea/modules/util/Traffic_Light.util.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/Traffic_Light.util.test.iml" filepath="$PROJECT_DIR$/.idea/modules/util/Traffic_Light.util.test.iml" />
+    </modules>
+  </component>
+</project>
