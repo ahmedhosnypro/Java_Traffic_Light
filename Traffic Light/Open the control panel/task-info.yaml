@@ -55,7 +55,7 @@ files:
 - name: src/traffic/Command.java
   visible: true
   learner_created: true
-feedback_link: https://hyperskill.org/projects/288/stages/1500/implement#comment
+feedback_link: https://hyperskill.org/learn/step/22722#comment
 status: Solved
 feedback:
   message: Congratulations!

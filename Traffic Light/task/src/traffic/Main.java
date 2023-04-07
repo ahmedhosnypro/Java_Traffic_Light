@@ -1,10 +1,12 @@
 package traffic;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final String WELCOME = "Welcome to the traffic management system!";
+    private static final String INPUT_ERROR = "Error! Incorrect Input. Try again!";
     private static final String MENU = Command.getMenu();
 
     public static void main(String[] args) {
@@ -21,26 +23,38 @@ public class Main {
     }
 
     public static void manageSystem() {
-        System.out.print("Input the number of roads: ");
-        scanner.nextInt();
-        scanner.nextLine();
+        getPositiveInt(1, "Input the number of roads: ");
+        getPositiveInt(1, "Input the interval: ");
 
-        System.out.print("Input the interval: ");
-        scanner.nextInt();
-        scanner.nextLine();
-
-        printMenu();
-
-        String commandInput = scanner.nextLine();
-        Command command = Command.getCommand(commandInput.toUpperCase());
-        while (command != Command.QUIT) {
-            System.out.println(command.getResponse());
-
-            printMenu();
-
-            commandInput = scanner.nextLine();
-            command = Command.getCommand(commandInput.toUpperCase());
+        while (executeCommand()){
+            clearConsoleOutput();
         }
+    }
+
+    public static boolean executeCommand() {
+        printMenu();
+        Command command = Command.getCommand(scanner.nextLine().toUpperCase());
         System.out.println(command.getResponse());
+        return command != Command.QUIT;
+    }
+
+    public static int getPositiveInt(int min, String message) {
+        System.out.print(message);
+        try {
+            int positiveInt = Integer.parseInt(scanner.nextLine());
+            if (positiveInt < min) {
+                return getPositiveInt(min, INPUT_ERROR);
+            }
+            return positiveInt;
+        } catch (Exception e) {
+            return getPositiveInt(min, INPUT_ERROR);
+        }
+    }
+
+    public static void clearConsoleOutput() {
+        try {
+            System.in.read();
+        } catch (IOException ignored){
+        }
     }
 }

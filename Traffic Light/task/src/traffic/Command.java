@@ -1,5 +1,6 @@
 package traffic;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public enum Command {
@@ -7,6 +8,7 @@ public enum Command {
     DELETE_ROAD("Delete road", "2", "Road deleted"),
     OPEN_SYSTEM("Open system", "3", "System opened"),
     QUIT("Quit", "0", "Bye!"),
+    UNKNOWN("Unknown", "", "Incorrect option"),
     ;
 
     private final String name;
@@ -34,9 +36,12 @@ public enum Command {
     public static String getMenu() {
         StringBuilder sb = new StringBuilder();
         sb.append("Menu:").append("\n");
-        for (Command command : Command.values()) {
-            sb.append(command.getCommandInput()).append(". ").append(command.getName()).append("\n");
-        }
+
+        Arrays.stream(Command.values())
+                .filter(command -> !command.equals(UNKNOWN))
+                .forEach(command ->
+                        sb.append(command.getCommandInput()).append(". ").append(command.getName()).append("\n"));
+
         return sb.toString().trim();
     }
 
@@ -44,6 +49,6 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(command -> command.getCommandInput().equals(commandInput))
                 .findFirst()
-                .orElse(Command.QUIT);
+                .orElse(Command.UNKNOWN);
     }
 }
