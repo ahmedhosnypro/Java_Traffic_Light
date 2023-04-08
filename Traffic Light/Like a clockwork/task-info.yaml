@@ -801,6 +801,82 @@ files:
       }
     }
   learner_created: false
+- name: src/traffic/command/Command.java
+  visible: true
+  text: |
+    package traffic;
+
+    import java.io.IOException;
+    import java.util.Arrays;
+
+    public enum Command {
+        ADD_ROAD("Add road", "1", "Road added"),
+        DELETE_ROAD("Delete road", "2", "Road deleted"),
+        OPEN_SYSTEM("Open system", "3", "System opened"),
+        QUIT("Quit", "0", "Bye!"),
+        UNKNOWN("Unknown", "", "Incorrect option"),
+        ;
+
+        private final String name;
+        private final String commandInput;
+        private final String response;
+
+        Command(String name, String commandInput, String response) {
+            this.name = name;
+            this.commandInput = commandInput;
+            this.response = response;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getCommandInput() {
+            return commandInput;
+        }
+
+        public String getResponse() {
+            return response;
+        }
+
+        public static String getMenu() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Menu:").append("\n");
+
+            Arrays.stream(Command.values())
+                    .filter(command -> !command.equals(UNKNOWN))
+                    .forEach(command ->
+                            sb.append(command.getCommandInput()).append(". ").append(command.getName()).append("\n"));
+
+            return sb.toString().trim();
+        }
+
+        public static Command getCommand(String commandInput) {
+            return Arrays.stream(Command.values())
+                    .filter(command -> command.getCommandInput().equals(commandInput))
+                    .findFirst()
+                    .orElse(Command.UNKNOWN);
+        }
+    }
+  learner_created: true
+- name: src/traffic/TrafficSystem.java
+  visible: true
+  learner_created: true
+- name: src/traffic/Util.java
+  visible: true
+  learner_created: true
+- name: src/traffic/command/TrafficCommander.java
+  visible: true
+  learner_created: true
+- name: src/traffic/QueueThread.java
+  visible: true
+  learner_created: true
+- name: src/traffic/TrafficSystemState.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/22725#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Sat, 08 Apr 2023 11:29:29 UTC"
 record: -1

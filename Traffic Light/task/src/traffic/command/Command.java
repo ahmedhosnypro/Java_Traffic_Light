@@ -1,6 +1,5 @@
-package traffic;
+package traffic.command;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 public enum Command {

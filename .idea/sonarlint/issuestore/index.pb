@@ -40,3 +40,13 @@ p.idea/modules/Traffic Light/task/build/classes/java/Traffic_Light.Traffic_Light
 ”.idea/modules/Traffic Light/task/build/generated/sources/headers/java/Traffic_Light.Traffic_Light-task-build-generated-sources-headers-java.test.iml,5\e\5ef1edf9e614eb8eb8997eab3f1a935b6da56948
 Y
 )Traffic Light/task/test/SystemOutput.java,6\f\6f7b33d3ad5477e1f51ed1fcad5b46d8213d52df
+c
+3Traffic Light/Open the control panel/task-info.yaml,a\2\a211cf9bf2bee93eb08dcd576ff3b24611fdacf0
+?
+settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
+_
+/Traffic Light/Red, yellow, green/task-info.yaml,d\8\d8c7c8002b76e02ebee40223690e3993a7f8b268
+`
+0Traffic Light/Over and over again/task-info.yaml,5\4\5436aedc160c12fef69758f180e1143899c52651
+e
+5Traffic Light/Set up the traffic light/task-info.yaml,3\7\374c32f97848ab9c722cd0756b893e1a1034b6d6
