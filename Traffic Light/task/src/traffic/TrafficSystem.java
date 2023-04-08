@@ -3,25 +3,26 @@ package traffic;
 import traffic.command.TrafficCommander;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import static traffic.Main.SCANNER;
 import static traffic.Util.clearConsoleOutput;
 import static traffic.Util.getPositiveInt;
 
 public class TrafficSystem {
-    private static final String WELCOME = "Welcome to the traffic management system!";
-
-    private final AtomicInteger numberOfRoads;
-    private final AtomicInteger intervals;
+    private final int intervals;
 
     TrafficCommander trafficCommander = new TrafficCommander(this);
     private TrafficSystemState trafficSystemState = TrafficSystemState.NOT_STARTED;
 
     private final QueueThread queueThread;
+    private final CircularQueue roadQueue;
 
     public TrafficSystem() {
         welcome();
-        numberOfRoads = getPositiveInt(1, "Input the number of roads: ");
+
+        int numberOfRoads = getPositiveInt(1, "Input the number of roads: ");
+        roadQueue = new CircularQueue(numberOfRoads);
+
         intervals = getPositiveInt(1, "Input the interval: ");
 
         this.queueThread = new QueueThread("QueueThread", this);
@@ -31,7 +32,7 @@ public class TrafficSystem {
     }
 
     public static void welcome() {
-        System.out.println(WELCOME);
+        System.out.println("Welcome to the traffic management system!");
     }
 
     public void command() {
@@ -41,13 +42,25 @@ public class TrafficSystem {
     }
 
     public void addRoad() {
-        numberOfRoads.addAndGet(1);
-        System.out.println("Road added");
+        System.out.print("Input road name: ");
+        var roadName = SCANNER.nextLine();
+        var added = roadQueue.enqueue(roadName);
+
+        if (added) {
+            System.out.println(roadName + " Added!");
+        } else {
+            System.out.println("queue is full");
+        }
+
     }
 
     public void deleteRoad() {
-        numberOfRoads.addAndGet(-1);
-        System.out.println("Road deleted");
+        var road = roadQueue.dequeue();
+        if (road != null) {
+            System.out.println(road + " Deleted!");
+        } else {
+            System.out.println("queue is empty");
+        }
     }
 
     public void openSystem() {
@@ -73,15 +86,19 @@ public class TrafficSystem {
         }
     }
 
-    public AtomicInteger getNumberOfRoads() {
-        return numberOfRoads;
+    public int getNumberOfRoads() {
+        return roadQueue.capacity();
     }
 
-    public AtomicInteger getIntervals() {
+    public int getIntervals() {
         return intervals;
     }
 
     public TrafficSystemState getState() {
         return trafficSystemState;
+    }
+
+    public String getRoadInfo() {
+        return roadQueue.toString();
     }
 }

@@ -11,14 +11,14 @@ public class Util {
     private Util() {
     }
 
-    public static AtomicInteger getPositiveInt(int min, String message) {
+    public static int getPositiveInt(int min, String message) {
         System.out.print(message);
         try {
             int positiveInt = Integer.parseInt(SCANNER.nextLine());
             if (positiveInt < min) {
                 return getPositiveInt(min, INPUT_ERROR);
             }
-            return new AtomicInteger(positiveInt);
+            return positiveInt;
         } catch (Exception e) {
             return getPositiveInt(min, INPUT_ERROR);
         }
