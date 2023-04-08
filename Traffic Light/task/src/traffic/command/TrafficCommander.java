@@ -1,8 +1,10 @@
 package traffic.command;
 
-import traffic.TrafficSystem;
+import traffic.system.TrafficSystem;
 
 import java.util.Scanner;
+
+import static traffic.util.Util.clearConsoleOutput;
 
 public class TrafficCommander {
     private static final Scanner scanner = new Scanner(System.in);
@@ -15,6 +17,7 @@ public class TrafficCommander {
     }
 
     public boolean executeCommand() {
+        clearConsoleOutput();
         printMenu();
         Command command = Command.getCommand(scanner.nextLine().toUpperCase());
         return switch (command) {
@@ -23,7 +26,7 @@ public class TrafficCommander {
                 yield true;
             }
             case DELETE_ROAD -> {
-                trafficSystem.deleteRoad();
+                trafficSystem.getRoadManager().deleteRoad();
                 yield true;
             }
             case OPEN_SYSTEM -> {

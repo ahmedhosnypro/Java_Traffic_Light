@@ -801,6 +801,387 @@ files:
       }
     }
   learner_created: false
+- name: src/traffic/command/TrafficCommander.java
+  visible: true
+  text: |
+    package traffic.command;
+
+    import traffic.TrafficSystem;
+
+    import java.util.Scanner;
+
+    public class TrafficCommander {
+        private static final Scanner scanner = new Scanner(System.in);
+        private static final String MENU = Command.getMenu();
+
+        private final TrafficSystem trafficSystem;
+
+        public TrafficCommander(TrafficSystem trafficSystem) {
+            this.trafficSystem = trafficSystem;
+        }
+
+        public boolean executeCommand() {
+            printMenu();
+            Command command = Command.getCommand(scanner.nextLine().toUpperCase());
+            return switch (command) {
+                case ADD_ROAD -> {
+                    trafficSystem.addRoad();
+                    yield true;
+                }
+                case DELETE_ROAD -> {
+                    trafficSystem.deleteRoad();
+                    yield true;
+                }
+                case OPEN_SYSTEM -> {
+                    trafficSystem.openSystem();
+                    yield false;
+                }
+                case QUIT -> {
+                    trafficSystem.shutdown();
+                    System.out.println("Bye!");
+                    yield false;
+                }
+                case UNKNOWN -> {
+                    System.out.println(command.getResponse());
+                    yield true;
+                }
+            };
+        }
+
+        public void printMenu() {
+            System.out.println(MENU);
+        }
+    }
+  learner_created: true
+- name: src/traffic/command/Command.java
+  visible: true
+  text: |
+    package traffic.command;
+
+    import java.util.Arrays;
+
+    public enum Command {
+        ADD_ROAD("Add road", "1", "Road added"),
+        DELETE_ROAD("Delete road", "2", "Road deleted"),
+        OPEN_SYSTEM("Open system", "3", "System opened"),
+        QUIT("Quit", "0", "Bye!"),
+        UNKNOWN("Unknown", "", "Incorrect option"),
+        ;
+
+        private final String name;
+        private final String commandInput;
+        private final String response;
+
+        Command(String name, String commandInput, String response) {
+            this.name = name;
+            this.commandInput = commandInput;
+            this.response = response;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getCommandInput() {
+            return commandInput;
+        }
+
+        public String getResponse() {
+            return response;
+        }
+
+        public static String getMenu() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Menu:").append("\n");
+
+            Arrays.stream(Command.values())
+                    .filter(command -> !command.equals(UNKNOWN))
+                    .forEach(command ->
+                            sb.append(command.getCommandInput()).append(". ").append(command.getName()).append("\n"));
+
+            return sb.toString().trim();
+        }
+
+        public static Command getCommand(String commandInput) {
+            return Arrays.stream(Command.values())
+                    .filter(command -> command.getCommandInput().equals(commandInput))
+                    .findFirst()
+                    .orElse(Command.UNKNOWN);
+        }
+    }
+  learner_created: true
+- name: src/traffic/data/CircularQueue.java
+  visible: true
+  text: |
+    package traffic;
+
+    class CircularQueue {
+        private final int size;
+        private final String[] elements;
+        private int front;
+        private int rear;
+        private int count;
+
+        public CircularQueue(int size) {
+            this.size = size;
+            elements = new String[size];
+            this.front = 0;
+            this.rear = 0;
+            this.count = 0;
+        }
+
+        public boolean isEmpty() {
+            return count == 0;
+        }
+
+        public boolean isFull() {
+            return count == size;
+        }
+
+        public boolean enqueue(String element) {
+            if (isFull()) {
+                return false;
+            }
+            elements[rear] = element;
+            rear = (rear + 1) % size;
+            count++;
+            return true;
+        }
+
+        public String dequeue() {
+            if (isEmpty()) {
+                return null;
+            }
+            String element = elements[front];
+            elements[front] = null;
+            front = (front + 1) % size;
+            count--;
+            return element;
+        }
+
+        public String peek() {
+            if (isEmpty()) {
+                return null;
+            }
+            return elements[front];
+        }
+
+
+        public int size() {
+            return count;
+        }
+
+        public int capacity() {
+            return size;
+        }
+
+        public String toString() {
+            if (isEmpty()) {
+                return "";
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < size; i++) {
+                if (elements[i] != null) {
+                    sb.append(elements[i]);
+                    if (i != size - 1) {
+                        sb.append("\n");
+                    }
+                }
+            }
+            return sb.toString();
+        }
+    }
+  learner_created: true
+- name: src/traffic/concurrent/QueueThread.java
+  visible: true
+  text: "package traffic;\n\nimport java.time.Instant;\n\npublic class QueueThread\
+    \ extends Thread {\n    private final TrafficSystem trafficSystem;\n    private\
+    \ Instant startTime;\n\n    public void startTime() {\n        if (this.startTime\
+    \ == null) {\n            this.startTime = Instant.now();\n        }\n    }\n\n\
+    \    public QueueThread(String name, TrafficSystem trafficSystem) {\n        super(name);\n\
+    \        this.trafficSystem = trafficSystem;\n    }\n\n    @Override\n    public\
+    \ void run() {\n        while (true) {\n            if ((trafficSystem.getState()\
+    \ == TrafficSystemState.SYSTEM)\n            ) {\n                System.out.printf(\"\
+    \"\"\n                                ! %ds. have passed since system startup\
+    \ !\n                                ! Number of roads: %d !\n               \
+    \                 ! Interval: %d !\n                                         \
+    \                       \n                                %s\n               \
+    \                                                 \n                         \
+    \       ! Press \"Enter\" to open menu !\n                                \"\"\
+    \",\n                        Instant.now().getEpochSecond() - startTime.getEpochSecond(),\n\
+    \                        trafficSystem.getNumberOfRoads(),\n                 \
+    \       trafficSystem.getIntervals(),\n                        trafficSystem.getRoadInfo());\n\
+    \            }\n            try {\n                Thread.sleep(1000);\n     \
+    \       } catch (InterruptedException ignored) {\n            }\n        }\n \
+    \   }\n}\n"
+  learner_created: true
+- name: src/traffic/util/Util.java
+  visible: true
+  text: |
+    package traffic;
+
+    import java.io.IOException;
+    import java.util.concurrent.atomic.AtomicInteger;
+
+    import static traffic.Main.SCANNER;
+
+    public class Util {
+        private static final String INPUT_ERROR = "Error! Incorrect Input. Try again!";
+
+        private Util() {
+        }
+
+        public static int getPositiveInt(int min, String message) {
+            System.out.print(message);
+            try {
+                int positiveInt = Integer.parseInt(SCANNER.nextLine());
+                if (positiveInt < min) {
+                    return getPositiveInt(min, INPUT_ERROR);
+                }
+                return positiveInt;
+            } catch (Exception e) {
+                return getPositiveInt(min, INPUT_ERROR);
+            }
+        }
+
+        public static void clearConsoleOutput() {
+            try {
+                System.in.read();
+            } catch (IOException ignored) {
+            }
+        }
+    }
+  learner_created: true
+- name: src/traffic/system/TrafficSystem.java
+  visible: true
+  text: |
+    package traffic;
+
+    import traffic.command.TrafficCommander;
+
+    import java.io.IOException;
+
+    import static traffic.Main.SCANNER;
+    import static traffic.Util.clearConsoleOutput;
+    import static traffic.Util.getPositiveInt;
+
+    public class TrafficSystem {
+        private final int intervals;
+
+        TrafficCommander trafficCommander = new TrafficCommander(this);
+        private TrafficSystemState trafficSystemState = TrafficSystemState.NOT_STARTED;
+
+        private final QueueThread queueThread;
+        private final CircularQueue roadQueue;
+
+        public TrafficSystem() {
+            welcome();
+
+            int numberOfRoads = getPositiveInt(1, "Input the number of roads: ");
+            roadQueue = new CircularQueue(numberOfRoads);
+
+            intervals = getPositiveInt(1, "Input the interval: ");
+
+            this.queueThread = new QueueThread("QueueThread", this);
+            this.queueThread.start();
+
+            command();
+        }
+
+        public static void welcome() {
+            System.out.println("Welcome to the traffic management system!");
+        }
+
+        public void command() {
+            while (trafficCommander.executeCommand()) {
+                clearConsoleOutput();
+            }
+        }
+
+        public void addRoad() {
+            System.out.print("Input road name: ");
+            var roadName = SCANNER.nextLine();
+            var added = roadQueue.enqueue(roadName);
+
+            if (added) {
+                System.out.println(roadName + " Added!");
+            } else {
+                System.out.println("queue is full");
+            }
+
+        }
+
+        public void deleteRoad() {
+            var road = roadQueue.dequeue();
+            if (road != null) {
+                System.out.println(road + " Deleted!");
+            } else {
+                System.out.println("queue is empty");
+            }
+        }
+
+        public void openSystem() {
+            queueThread.startTime();
+            trafficSystemState = TrafficSystemState.SYSTEM;
+            try {
+                var read = System.in.read();
+                if (read == 10) {
+                    closeSystem();
+                }
+            } catch (IOException ignored) {
+            }
+        }
+
+        public void closeSystem() {
+            trafficSystemState = TrafficSystemState.MENU;
+            command();
+        }
+
+        public void shutdown() {
+            if (queueThread != null && queueThread.isAlive()) {
+                queueThread.stop();
+            }
+        }
+
+        public int getNumberOfRoads() {
+            return roadQueue.capacity();
+        }
+
+        public int getIntervals() {
+            return intervals;
+        }
+
+        public TrafficSystemState getState() {
+            return trafficSystemState;
+        }
+
+        public String getRoadInfo() {
+            return roadQueue.toString();
+        }
+    }
+  learner_created: true
+- name: src/traffic/system/TrafficSystemState.java
+  visible: true
+  text: |
+    package traffic;
+
+    public enum TrafficSystemState {
+        NOT_STARTED,
+        MENU,
+        SYSTEM,
+        ;
+    }
+  learner_created: true
+- name: src/traffic/system/RoadManager.java
+  visible: true
+  learner_created: true
+- name: src/traffic/system/Road.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/22727#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">Hyperskill</a>
+    to continue learning.
+  time: "Sat, 08 Apr 2023 22:51:41 UTC"
+record: 6
